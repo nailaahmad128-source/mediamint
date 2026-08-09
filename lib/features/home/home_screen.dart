@@ -1,7 +1,11 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:open_filex/open_filex.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../core/constants/app_constants.dart';
 import '../../core/services/storage_service.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/utils/file_utils.dart';
 import '../../shared/models/recent_file_model.dart';
 import '../../shared/widgets/empty_state.dart';
 import '../../shared/widgets/section_header.dart';
@@ -113,6 +117,147 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+
+  Future<void> _openRecentFile(RecentFileModel file) async {
+    if (!await File(file.path).exists()) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('File not found.')),
+        );
+      }
+      return;
+    }
+
+    final result = await OpenFilex.open(file.path);
+    if (mounted && result.type != ResultType.done) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No app found to open this file.')),
+      );
+    }
+  }
+
+  Future<void> _shareRecentFile(RecentFileModel file) async {
+    if (!await File(file.path).exists()) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('File not found.')),
+        );
+      }
+      return;
+    }
+
+    await SharePlus.instance.share(
+      ShareParams(files: [XFile(file.path)]),
+    );
+  }
+
+  Future<void> _renameRecentFile(RecentFileModel file) async {
+    final controller = TextEditingController(
+      text: FileUtils.nameWithoutExtension(file.fileName),
+    );
+
+    final newName = await showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Rename file'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(
+              context,
+              controller.text.trim(),
+            ),
+            child: const Text('Rename'),
+          ),
+        ],
+      ),
+    );
+
+    controller.dispose();
+
+    if (newName == null ||
+        newName.isEmpty ||
+        newName == FileUtils.nameWithoutExtension(file.fileName)) {
+      return;
+    }
+
+    final extension = FileUtils.extensionOf(file.path);
+    final directory = File(file.path).parent.path;
+    final newPath =
+        '$directory${Platform.pathSeparator}$newName.$extension';
+
+    try {
+      final renamed = await File(file.path).rename(newPath);
+
+      await _storage.updateRecentFilePath(
+        file.path,
+        renamed.path,
+        '$newName.$extension',
+      );
+
+      await _loadRecents();
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Renamed to $newName.$extension')),
+        );
+      }
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Could not rename this file.')),
+        );
+      }
+    }
+  }
+
+  Future<void> _deleteRecentFile(RecentFileModel file) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete file?'),
+        content: Text(
+          '"${file.fileName}" will be permanently deleted from your device.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.error,
+            ),
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true) return;
+
+    await FileUtils.deleteIfExists(file.path);
+    await _storage.removeRecentFile(file.path);
+    await _loadRecents();
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('File deleted')),
+      );
+    }
+  }
+
   Widget _buildRecentSection() {
     if (_loadingRecents) {
       return const Padding(
@@ -135,10 +280,10 @@ class _HomeScreenState extends State<HomeScreen> {
           for (var i = 0; i < _recentPreview.length; i++) ...[
             RecentFileTile(
               file: _recentPreview[i],
-              onOpen: () {},
-              onShare: () {},
-              onRename: () {},
-              onDelete: () {},
+              onOpen: () => _openRecentFile(_recentPreview[i]),
+              onShare: () => _shareRecentFile(_recentPreview[i]),
+              onRename: () => _renameRecentFile(_recentPreview[i]),
+              onDelete: () => _deleteRecentFile(_recentPreview[i]),
               dense: true,
             ),
             if (i != _recentPreview.length - 1) const Divider(height: 1),
