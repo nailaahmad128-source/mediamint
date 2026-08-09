@@ -1,0 +1,46 @@
+name: media_mint
+description: "MediaMint — Video & Audio Studio. Local, private video-to-audio conversion and audio tools."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # --- Media engine ---
+  # Audio-focused build of the maintained FFmpegKit fork (original ffmpeg_kit_flutter
+  # was retired by its author in April 2025 and removed from pub.dev / Maven Central).
+  # The "_audio" variant keeps the app smaller while still including the container
+  # demuxers needed to read MP4/MKV/MOV/AVI/WEBM and the audio encoders (lame/mp3,
+  # opus, vorbis) needed for our export formats.
+  ffmpeg_kit_flutter_new_audio: ^2.5.2
+
+  # --- File selection / storage access ---
+  file_picker: ^8.1.4          # Android SAF-backed file picker
+  path_provider: ^2.1.4        # App sandbox + cache directories
+  permission_handler: ^11.3.1  # Runtime permissions (scoped, only where required)
+  device_info_plus: ^11.1.0    # Used only to branch permission requests by Android SDK level
+
+  # --- Local persistence (no backend, no database server) ---
+  shared_preferences: ^2.3.2   # Settings + lightweight recent-files metadata (JSON)
+
+  # --- Sharing / opening files with other apps ---
+  share_plus: ^11.1.0          # SharePlus.instance.share(ShareParams(...)) API used across the app
+  open_filex: ^4.5.0
+
+  # --- Video thumbnail for the "selected video" preview card ---
+  video_thumbnail: ^0.5.3
+
+  # --- UI utilities ---
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
