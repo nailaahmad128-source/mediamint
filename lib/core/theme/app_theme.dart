@@ -122,8 +122,8 @@ class AppTheme {
         indicatorColor: scheme.secondaryContainer,
       ),
       pageTransitionsTheme: const PageTransitionsTheme(
-        builders: {
-          TargetPlatform.android: FadeForwardsPageTransitionsBuilder(),
+        builders: <TargetPlatform, PageTransitionsBuilder>{
+          TargetPlatform.android: ZoomPageTransitionsBuilder(),
           TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
         },
       ),

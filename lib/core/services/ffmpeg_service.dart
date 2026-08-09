@@ -48,7 +48,7 @@ class FfmpegService {
   /// live progress percentage during conversion.
   Future<MediaProbeResult> probe(String path) async {
     final session = await FFprobeKit.getMediaInformation(path);
-    final info = await session.getMediaInformation();
+    final info = session.getMediaInformation();
 
     if (info == null) {
       final failStack = await session.getFailStackTrace();
@@ -261,7 +261,7 @@ class FfmpegService {
         }
       },
     ).then((session) async {
-      _activeSessionId = await session.getSessionId();
+      _activeSessionId = session.getSessionId();
     });
 
     return completer.future;
