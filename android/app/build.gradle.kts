@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.mediamint.app"
-    compileSdk = 35
+    compileSdk = 36
     ndkVersion = "26.3.11579264"
 
     compileOptions {
@@ -25,7 +25,7 @@ android {
         applicationId = "com.mediamint.app"
         // ffmpeg_kit_flutter_new's Android platform support starts at API 24.
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }

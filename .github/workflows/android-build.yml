@@ -1,4 +1,4 @@
-name: MediaMint Android Build
+name: MediaMint AAB Build
 
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -26,11 +26,11 @@ jobs:
       - name: Analyze
         run: flutter analyze --no-fatal-infos
 
-      - name: Build APK
-        run: flutter build apk --release
+      - name: Build AAB
+        run: flutter build appbundle --release
 
-      - name: Upload APK
+      - name: Upload AAB
         uses: actions/upload-artifact@v4
         with:
-          name: MediaMint-APK
-          path: build/app/outputs/flutter-apk/app-release.apk
+          name: MediaMint-AAB
+          path: build/app/outputs/bundle/release/app-release.aab
