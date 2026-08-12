@@ -31,6 +31,15 @@ android {
     }
 
     signingConfigs {
+        create("release") {
+            val propsFile = rootProject.file("key.properties")
+            val props = java.util.Properties()
+            propsFile.inputStream().use { props.load(it) }
+            storeFile = file(props["storeFile"] as String)
+            storePassword = props["storePassword"] as String
+            keyAlias = props["keyAlias"] as String
+            keyPassword = props["keyPassword"] as String
+        }
         // Debug builds sign with the default debug key. For a real release,
         // replace this with your own upload keystore referenced from
         // android/key.properties (never commit a real keystore/password).
@@ -42,7 +51,7 @@ android {
             // TODO before shipping: point this at your own release signing
             // config. Left as debug signing so `flutter build apk --release`
             // succeeds out of the box for local testing.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
