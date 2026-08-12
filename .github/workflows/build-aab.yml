@@ -36,9 +36,9 @@ jobs:
           storePassword=$KEYSTORE_PASSWORD
           keyPassword=$KEYSTORE_PASSWORD
           keyAlias=$KEY_ALIAS
-          storeFile=upload-keystore.jks
+          storeFile=app/upload-keystore.jks
           EOF
-          test -s android/upload-keystore.jks
+          test -s android/app/upload-keystore.jks
           test -s android/key.properties
           echo "Signing files created successfully"
 
