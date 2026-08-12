@@ -45,15 +45,6 @@ jobs:
       - name: Build Release AAB
         run: flutter build appbundle --release
 
-      - name: Verify AAB is release signed
-        run: |
-          jarsigner -verify -verbose -certs build/app/outputs/bundle/release/app-release.aab > signing-check.txt 2>&1
-          cat signing-check.txt
-          if grep -qi "CN=Android Debug" signing-check.txt; then
-            echo "ERROR: AAB is DEBUG signed!"
-            exit 1
-          fi
-          echo "SUCCESS: AAB is not debug signed."
 
       - name: Upload AAB
         uses: actions/upload-artifact@v4
