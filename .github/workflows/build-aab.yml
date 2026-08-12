@@ -28,6 +28,7 @@ jobs:
       - name: Setup signing
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/upload-keystore.jks
+
           cat > android/key.properties <<EOL
           storePassword=${{ secrets.KEYSTORE_PASSWORD }}
           keyPassword=${{ secrets.KEYSTORE_PASSWORD }}
@@ -38,8 +39,21 @@ jobs:
       - name: Get dependencies
         run: flutter pub get
 
+      - name: Clean
+        run: flutter clean
+
       - name: Build Release AAB
         run: flutter build appbundle --release
+
+      - name: Verify AAB is release signed
+        run: |
+          jarsigner -verify -verbose -certs build/app/outputs/bundle/release/app-release.aab > signing-check.txt 2>&1
+          cat signing-check.txt
+          if grep -qi "CN=Android Debug" signing-check.txt; then
+            echo "ERROR: AAB is DEBUG signed!"
+            exit 1
+          fi
+          echo "SUCCESS: AAB is not debug signed."
 
       - name: Upload AAB
         uses: actions/upload-artifact@v4
