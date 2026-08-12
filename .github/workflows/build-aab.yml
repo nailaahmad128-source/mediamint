@@ -26,19 +26,22 @@ jobs:
           channel: stable
 
       - name: Setup signing
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/upload-keystore.jks
+          echo "$KEYSTORE_BASE64" | base64 --decode > android/upload-keystore.jks
+          cat > android/key.properties <<EOF
+          storePassword=$KEYSTORE_PASSWORD
+          keyPassword=$KEYSTORE_PASSWORD
+          keyAlias=$KEY_ALIAS
+          storeFile=upload-keystore.jks
+          EOF
+          test -s android/upload-keystore.jks
+          test -s android/key.properties
+          echo "Signing files created successfully"
 
-          cat > android/key.properties <<EOL
-          storePassword=${{ secrets.KEYSTORE_PASSWORD }}
-          keyPassword=${{ secrets.KEYSTORE_PASSWORD }}
-          keyAlias=${{ secrets.KEY_ALIAS }}
-          storeFile=${{ github.workspace }}/android/upload-keystore.jks
-          EOL
-
-    - name: Verify signing keystore
-      run: |
-        keytool -list -v -keystore android/upload-keystore.jks -storepass "${{ secrets.KEYSTORE_PASSWORD }}" | grep -E "Alias name:|Owner:|SHA256:"
       - name: Get dependencies
         run: flutter pub get
 
