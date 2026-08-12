@@ -36,7 +36,7 @@ jobs:
           storePassword=$KEYSTORE_PASSWORD
           keyPassword=$KEYSTORE_PASSWORD
           keyAlias=$KEY_ALIAS
-          storeFile=app/upload-keystore.jks
+          storeFile=upload-keystore.jks
           EOF
           test -s android/app/upload-keystore.jks
           test -s android/key.properties
