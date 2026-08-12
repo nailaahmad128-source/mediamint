@@ -1,3 +1,4 @@
+import java.util.Properties
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -33,7 +34,7 @@ android {
     signingConfigs {
         create("release") {
             val propsFile = rootProject.file("key.properties")
-            val props = java.util.Properties()
+            val props = Properties()
             propsFile.inputStream().use { props.load(it) }
             storeFile = file(props["storeFile"] as String)
             storePassword = props["storePassword"] as String
