@@ -36,6 +36,9 @@ jobs:
           storeFile=${{ github.workspace }}/android/upload-keystore.jks
           EOL
 
+    - name: Verify signing keystore
+      run: |
+        keytool -list -v -keystore android/upload-keystore.jks -storepass "${{ secrets.KEYSTORE_PASSWORD }}" | grep -E "Alias name:|Owner:|SHA256:"
       - name: Get dependencies
         run: flutter pub get
 
