@@ -13,14 +13,14 @@ class AdIds {
   AdIds._();
 
   /// Set to `false` once the real ad unit below has been filled in.
-  static const bool useTestAds = true;
+  static const bool useTestAds = false;
 
   // Google's public TEST banner ad unit (Android).
   static const String _testBannerAdUnitId =
       'ca-app-pub-3940256099942544/6300978111';
 
   // REPLACE with your real banner ad unit, e.g. 'ca-app-pub-XXXXXXXXXXXXXXXX/NNNNNNNNNN'.
-  static const String _prodBannerAdUnitId = 'REPLACE_WITH_YOUR_BANNER_AD_UNIT_ID';
+  static const String _prodBannerAdUnitId = 'ca-app-pub-5092722454826299/8629809727';
 
   static String get bannerAdUnitId {
     // Never serve production ad units from a debug build (avoids invalid

@@ -70,7 +70,7 @@
         -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713" />
+            android:value="ca-app-pub-5092722454826299~1944058439" />
 
         <!-- Required so file_picker / share_plus / open_filex can hand our
              app-private output files to other apps via a content:// Uri
