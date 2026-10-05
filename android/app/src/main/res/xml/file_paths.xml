@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- App's own external files dir: /Android/data/<package>/files/MediaMint -->
+    <external-files-path name="mediamint_output" path="MediaMint/" />
+    <!-- Cache dir used for temporary/working files during conversion -->
+    <cache-path name="mediamint_temp" path="mediamint_tmp/" />
+    <!-- Public Downloads/MediaMint, used only when the user selects that save location -->
+    <external-path name="mediamint_downloads" path="Download/MediaMint/" />
+</paths>

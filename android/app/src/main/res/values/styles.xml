@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Shown for the brief moment between process start and Flutter's
+         first frame. Matches the app's light-mode background so there's
+         no visible flash/mismatch before Material 3 theming takes over. -->
+    <style name="LaunchTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowBackground">@drawable/launch_background</item>
+    </style>
+
+    <!-- Used after Flutter draws its first frame, while native views
+         (e.g. system dialogs) are shown on top of the Flutter view. -->
+    <style name="NormalTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowBackground">?android:colorBackground</item>
+    </style>
+</resources>

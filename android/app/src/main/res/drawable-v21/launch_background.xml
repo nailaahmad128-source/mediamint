@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Simple solid-color splash background matching AppColors.seed
+    (#0F766E) so the native launch screen doesn't clash with the first
+    Flutter frame. Replace with a layer-list + centered logo drawable if
+    you want a branded splash mark instead of a flat color.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/launch_background_color" />
+</layer-list>

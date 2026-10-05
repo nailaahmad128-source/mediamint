@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Adaptive icon foreground: play triangle -> audio waveform. All content sits inside the 66dp safe zone. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Play triangle (video) -->
+    <path
+        android:pathData="M28,41L28,67L44,54Z"
+        android:fillColor="#FFFFFF"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="4"
+        android:strokeLineJoin="round" />
+    <!-- Waveform bars (audio) -->
+    <path android:pathData="M54.5,47.75L54.5,60.25" android:strokeColor="#99F6E4" android:strokeWidth="5.5" android:strokeLineCap="round" />
+    <path android:pathData="M63,40.75L63,67.25" android:strokeColor="#99F6E4" android:strokeWidth="5.5" android:strokeLineCap="round" />
+    <path android:pathData="M71.5,44.75L71.5,63.25" android:strokeColor="#99F6E4" android:strokeWidth="5.5" android:strokeLineCap="round" />
+    <path android:pathData="M80,50.75L80,57.25" android:strokeColor="#99F6E4" android:strokeWidth="5.5" android:strokeLineCap="round" />
+</vector>

@@ -1,0 +1,7 @@
+# This file is generated/edited locally and should NOT be committed with
+# real machine-specific paths. Copy this to android/local.properties and
+# fill in your own paths (or just run `flutter create .` once, which
+# generates it for you automatically).
+#
+# sdk.dir=/Users/you/Library/Android/sdk
+# flutter.sdk=/Users/you/development/flutter
