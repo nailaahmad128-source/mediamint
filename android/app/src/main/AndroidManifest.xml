@@ -12,7 +12,6 @@
 
     <!-- Android 13+ (API 33+): granular media read permissions. -->
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
 
     <!-- Android 6-12 (API 23-32): legacy scoped storage read. -->
     <uses-permission

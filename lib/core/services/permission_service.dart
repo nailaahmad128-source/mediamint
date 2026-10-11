@@ -29,7 +29,7 @@ class PermissionService {
     final sdkInt = await _sdkInt();
 
     if (sdkInt >= 33) {
-      final statuses = await [Permission.audio, Permission.videos].request();
+      final statuses = await [Permission.audio].request();
       return statuses.values.every((s) => s.isGranted);
     }
     if (sdkInt >= 23) {
@@ -44,7 +44,7 @@ class PermissionService {
     final sdkInt = await _sdkInt();
 
     if (sdkInt >= 33) {
-      return await Permission.audio.isGranted && await Permission.videos.isGranted;
+      return await Permission.audio.isGranted;
     }
     if (sdkInt >= 23) {
       return Permission.storage.isGranted;
