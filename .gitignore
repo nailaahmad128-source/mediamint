@@ -25,3 +25,4 @@ android/app/release/
 .idea/
 .vscode/
 *.iml
+/upload-keystore.jks
